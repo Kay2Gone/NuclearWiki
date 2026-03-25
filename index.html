@@ -1,1 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NuclearAdditions Wiki</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Inconsolata:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:           #f8f8f0;
+      --bg-sidebar:   #f0f0e4;
+      --bg-panel:     #ffffff;
+      --bg-header:    #3d5a1e;
+      --bg-nav:       #4a6e25;
+      --border:       #c8c8a0;
+      --border-dark:  #a0a070;
+      --accent:       #5a8a1e;
+      --accent-hover: #3d6614;
+      --accent-yellow:#d4a017;
+      --accent-rad:   #7abf1e;
+      --accent-orange:#c86400;
+      --accent-red:   #c83232;
+      --text:         #1a1a10;
+      --text-muted:   #5a5a40;
+      --text-dim:     #8a8a68;
+      --link:         #2a6496;
+      --link-visited: #6c4a9a;
+      --white:        #ffffff;
+    }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    a:visited { color: var(--link-visited); }
+
+    /* HEADER */
+    header { background: var(--bg-header); }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 18px;
+    }
+    .site-logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .logo-icon { width: 52px; height: 52px; image-rendering: pixelated; }
+    .logo-title { font-size: 21px; font-weight: 800; color: #e8f5c0; }
+    .logo-title span { color: var(--accent-rad); }
+    .logo-sub { font-size: 11px; color: #a8c878; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+    .header-search { flex: 1; max-width: 400px; margin-left: auto; display: flex; }
+    .header-search input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 2px solid #2a3d10;
+      border-right: none;
+      background: rgba(255,255,255,0.12);
+      color: #e8f5c0;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      outline: none;
+    }
+    .header-search input::placeholder { color: rgba(200,220,160,0.6); }
+    .header-search input:focus { background: rgba(255,255,255,0.2); }
+    .header-search button {
+      padding: 8px 14px;
+      background: #2a3d10;
+      border: 2px solid #2a3d10;
+      color: #c8e890;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Nunito', sans-serif;
+    }
+    .header-search button:hover { background: #1a2808; }
+    .header-links { display: flex; gap: 12px; font-size: 13px; }
+    .header-links a { color: #a8c878; }
+    .header-links a:hover { color: #e8f5c0; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      background: var(--bg-nav);
+      border-bottom: 2px solid #2a4010;
+      display: flex;
+      overflow-x: auto;
+      padding: 0 14px;
+    }
+    nav a {
+      color: #d8eeac;
+      text-decoration: none;
+      padding: 9px 14px;
+      font-size: 13.5px;
+      font-weight: 700;
+      border-bottom: 3px solid transparent;
+      transition: all 0.12s;
+      white-space: nowrap;
+    }
+    nav a:hover, nav a.active {
+      color: #ffffff;
+      border-bottom-color: var(--accent-rad);
+      background: rgba(255,255,255,0.08);
+      text-decoration: none;
+    }
+
+    /* LAYOUT */
+    .page-wrap {
+      display: grid;
+      grid-template-columns: 200px 1fr 190px;
+      max-width: 1380px;
+      margin: 0 auto;
+    }
+
+    /* LEFT SIDEBAR */
+    .sidebar-left {
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      padding: 14px 0;
+      min-height: calc(100vh - 112px);
+    }
+    .sb-section { margin-bottom: 4px; }
+    .sb-head {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding: 10px 14px 4px;
+    }
+    .sb-section ul { list-style: none; }
+    .sb-section ul li a {
+      display: block;
+      padding: 4px 14px 4px 20px;
+      color: var(--text-muted);
+      font-size: 13.5px;
+      font-weight: 600;
+      border-left: 3px solid transparent;
+      transition: all 0.1s;
+    }
+    .sb-section ul li a:hover {
+      color: var(--accent);
+      background: rgba(90,138,30,0.08);
+      border-left-color: var(--accent);
+      text-decoration: none;
+    }
+    .sb-section ul li a.current {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: rgba(90,138,30,0.1);
+      font-weight: 800;
+    }
+    .sb-divider { height: 1px; background: var(--border); margin: 6px 12px; }
+    .sb-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+    .tag-new { background: #d4f0a0; color: #2a5000; border: 1px solid #8acd3a; }
+    .tag-wip { background: #fff0c0; color: #7a5000; border: 1px solid #e0b030; }
+
+    /* MAIN */
+    main { padding: 20px 26px; min-width: 0; background: var(--bg-panel); }
+    .breadcrumb { font-size: 12.5px; color: var(--text-dim); margin-bottom: 14px; }
+    .breadcrumb a { color: var(--link); }
+    .page-title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text);
+      border-bottom: 1px solid var(--border-dark);
+      padding-bottom: 6px;
+      margin-bottom: 16px;
+    }
+
+    /* Hero */
+    .wiki-hero {
+      background: linear-gradient(135deg, #eef6d8 0%, #f8fce8 100%);
+      border: 1px solid #bcd880;
+      border-radius: 4px;
+      padding: 20px 22px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .hero-big-icon { width: 72px; height: 72px; image-rendering: pixelated; flex-shrink: 0; }
+    .hero-content h2 { font-size: 19px; font-weight: 800; color: #2a4a0a; margin-bottom: 4px; }
+    .hero-content p { font-size: 14px; color: #4a6a2a; margin-bottom: 10px; }
+    .hero-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .badge { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 3px; }
+    .badge-ver    { background: #d4f0a0; color: #2a5000; border: 1px solid #8acd3a; }
+    .badge-mc     { background: #d0e8f8; color: #1a4060; border: 1px solid #7ab8e8; }
+    .badge-loader { background: #efe0f8; color: #4a2070; border: 1px solid #b890e0; }
+
+    h2.h2 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+      margin: 22px 0 12px;
+    }
+    h3.h3 { font-size: 15px; font-weight: 800; margin: 16px 0 6px; }
+    p { margin-bottom: 10px; font-size: 15px; }
+
+    /* Notes */
+    .note {
+      border: 1px solid;
+      border-radius: 3px;
+      padding: 9px 14px;
+      margin: 12px 0;
+      font-size: 14px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .note-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .note.tip    { background: #f0fce0; border-color: #a0d050; }
+    .note.warn   { background: #fff8e0; border-color: #e0c040; }
+    .note.danger { background: #fff0f0; border-color: #e08080; }
+    .note.info   { background: #e8f4fc; border-color: #90c8f0; }
+
+    /* Infobox */
+    .infobox {
+      float: right;
+      clear: right;
+      margin: 0 0 16px 20px;
+      background: #f8f8f0;
+      border: 1px solid var(--border-dark);
+      width: 220px;
+      font-size: 13px;
+    }
+    .infobox-title {
+      background: #4a6e25;
+      color: #e8f5c0;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 6px 10px;
+      text-align: center;
+    }
+    .infobox-img {
+      background: #1a1a12;
+      padding: 14px;
+      display: flex;
+      justify-content: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .infobox table { width: 100%; border-collapse: collapse; }
+    .infobox tr { border-top: 1px solid #e0e0c8; }
+    .infobox td { padding: 4px 8px; vertical-align: top; }
+    .infobox td:first-child { color: var(--text-muted); font-weight: 700; font-size: 12px; width: 80px; }
+
+    /* Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .wiki-card {
+      background: #f8fce8;
+      border: 1px solid #bcd880;
+      border-radius: 4px;
+      padding: 14px 10px;
+      text-decoration: none;
+      color: var(--text);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.12s;
+    }
+    .wiki-card:hover {
+      background: #ecf8c8;
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      text-decoration: none;
+      color: var(--text);
+    }
+    .wiki-card .card-img { width: 40px; height: 40px; image-rendering: pixelated; }
+    .wiki-card .card-name { font-size: 13px; font-weight: 800; }
+    .wiki-card .card-count { font-size: 12px; color: var(--text-dim); }
+
+    /* TOC */
+    .toc {
+      background: #f8f8f0;
+      border: 1px solid var(--border-dark);
+      display: inline-block;
+      padding: 10px 16px;
+      margin-bottom: 16px;
+      min-width: 180px;
+    }
+    .toc-title { font-weight: 800; font-size: 13px; margin-bottom: 6px; }
+    .toc ol { padding-left: 18px; }
+    .toc li { font-size: 13.5px; margin: 3px 0; }
+    .toc a { color: var(--link); }
+
+    /* Crafting */
+    .crafting-wrapper {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: #c8c8a0;
+      border: 2px solid #a0a068;
+      padding: 12px 16px;
+      border-radius: 3px;
+      margin: 10px 0 16px;
+    }
+    .crafting-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 48px);
+      grid-template-rows: repeat(3, 48px);
+      gap: 2px;
+      background: #6a6a48;
+      padding: 2px;
+    }
+    .craft-slot {
+      background: #8f8f6a;
+      border: 2px solid;
+      border-color: #4a4a30 #c0c090 #c0c090 #4a4a30;
+      width: 48px; height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .craft-arrow { font-size: 22px; color: #3a3a20; }
+    .craft-result {
+      background: #8f8f6a;
+      border: 3px solid;
+      border-color: #4a4a30 #c0c090 #c0c090 #4a4a30;
+      width: 56px; height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .crafting-label { font-size: 11px; font-weight: 800; color: #3a3a20; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+
+    /* Page cats */
+    .page-cats {
+      margin-top: 24px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .cat-link {
+      background: #eef5d8;
+      border: 1px solid #a8cc60;
+      padding: 1px 8px;
+      border-radius: 2px;
+      color: var(--accent);
+      font-size: 13px;
+    }
+    .cat-link:hover { background: #ddf0a0; text-decoration: none; }
+
+    /* RIGHT SIDEBAR */
+    .sidebar-right {
+      background: var(--bg-sidebar);
+      border-left: 1px solid var(--border);
+      padding: 14px 12px;
+      font-size: 13px;
+    }
+    .widget { margin-bottom: 18px; }
+    .widget-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 5px;
+      margin-bottom: 8px;
+    }
+    .recent-list { list-style: none; }
+    .recent-list li { padding: 5px 0; border-bottom: 1px solid #e8e8d0; }
+    .recent-list li:last-child { border-bottom: none; }
+    .recent-list .edit-time { font-size: 11px; color: var(--text-dim); display: block; }
+    .stat-table { width: 100%; border-collapse: collapse; }
+    .stat-table td { padding: 4px 4px; border-top: 1px solid #e8e8d0; font-size: 13px; }
+    .stat-table td:first-child { color: var(--text-muted); font-weight: 700; }
+    .status-y { color: #3a8a1a; font-weight: 800; }
+    .status-n { color: var(--accent-red); font-weight: 800; }
+    .status-w { color: #b07800; font-weight: 800; }
+
+    /* FOOTER */
+    footer {
+      background: #2a3d10;
+      border-top: 2px solid #1a2808;
+      padding: 18px 24px;
+      color: #88a860;
+      font-size: 12.5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    footer a { color: #a8c878; }
+    footer a:hover { color: #e8f5c0; text-decoration: none; }
+    .footer-links { display: flex; gap: 14px; }
+
+    @keyframes radGlow {
+      0%, 100% { filter: drop-shadow(0 0 4px #7abf1e88); }
+      50%       { filter: drop-shadow(0 0 10px #7abf1ecc); }
+    }
+    .logo-icon { animation: radGlow 3s ease-in-out infinite; }
+
+    ::-webkit-scrollbar { width: 7px; }
+    ::-webkit-scrollbar-track { background: var(--bg-sidebar); }
+    ::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="site-logo" href="#">
+      <svg class="logo-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" fill="#1a2808"/>
+        <rect x="14" y="14" width="4" height="4" fill="#aaff44"/>
+        <rect x="13" y="13" width="6" height="6" fill="#88dd22" opacity="0.4"/>
+        <rect x="15" y="6"  width="2" height="6" fill="#88dd22"/>
+        <rect x="8"  y="20" width="6" height="2" fill="#88dd22"/>
+        <rect x="9"  y="19" width="2" height="2" fill="#88dd22"/>
+        <rect x="18" y="20" width="6" height="2" fill="#88dd22"/>
+        <rect x="21" y="19" width="2" height="2" fill="#88dd22"/>
+        <rect x="15" y="3"  width="2" height="2" fill="#ccff88"/>
+        <rect x="5"  y="23" width="2" height="2" fill="#ccff88"/>
+        <rect x="25" y="23" width="2" height="2" fill="#ccff88"/>
+      </svg>
+      <div>
+        <div class="logo-title">Nuclear<span>Additions</span> Wiki</div>
+        <div class="logo-sub">The Official Reference</div>
+      </div>
+    </a>
+    <div class="header-search">
+      <input type="text" placeholder="Search NuclearAdditions Wiki…"/>
+      <button>Search</button>
+    </div>
+    <div class="header-links">
+      <a href="#">Log in</a>
+      <a href="#">Sign up</a>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <a href="#" class="active">Main Page</a>
+  <a href="#">Getting Started</a>
+  <a href="#">Blocks</a>
+  <a href="#">Items</a>
+  <a href="#">Mobs</a>
+  <a href="#">Machines</a>
+  <a href="#">Reactors</a>
+  <a href="#">Radiation</a>
+  <a href="#">Structures</a>
+  <a href="#">Changelog</a>
+  <a href="#">FAQ</a>
+</nav>
+
+<div class="page-wrap">
+
+  <aside class="sidebar-left">
+    <div class="sb-section">
+      <div class="sb-head">Navigation</div>
+      <ul>
+        <li><a href="#" class="current">Main Page</a></li>
+        <li><a href="#">Getting Started</a></li>
+        <li><a href="#">Installation</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Changelog</a></li>
+      </ul>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">
+      <div class="sb-head">Blocks</div>
+      <ul>
+        <li><a href="#">Uranium Ore</a></li>
+        <li><a href="#">Reactor Core <span class="sb-tag tag-new">NEW</span></a></li>
+        <li><a href="#">Cooling Cell</a></li>
+        <li><a href="#">Control Rod</a></li>
+        <li><a href="#">Waste Barrel</a></li>
+        <li><a href="#">All Blocks →</a></li>
+      </ul>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">
+      <div class="sb-head">Items</div>
+      <ul>
+        <li><a href="#">Uranium Ingot</a></li>
+        <li><a href="#">Fuel Rod</a></li>
+        <li><a href="#">Hazmat Suit <span class="sb-tag tag-wip">WIP</span></a></li>
+        <li><a href="#">Geiger Counter</a></li>
+        <li><a href="#">All Items →</a></li>
+      </ul>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">
+      <div class="sb-head">Mechanics</div>
+      <ul>
+        <li><a href="#">Radiation System</a></li>
+        <li><a href="#">Reactor Guide</a></li>
+        <li><a href="#">Meltdown Events</a></li>
+        <li><a href="#">Contamination</a></li>
+      </ul>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-section">
+      <div class="sb-head">Mobs</div>
+      <ul>
+        <li><a href="#">Radiated Zombie</a></li>
+        <li><a href="#">Fallout Creeper</a></li>
+        <li><a href="#">Mutant Pig <span class="sb-tag tag-new">NEW</span></a></li>
+        <li><a href="#">All Mobs →</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <main>
+    <div class="breadcrumb"><a href="#">NuclearAdditions Wiki</a> › Main Page</div>
+    <div class="page-title">NuclearAdditions Wiki</div>
+
+    <div class="wiki-hero">
+      <svg class="hero-big-icon" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" fill="#1a2808"/>
+        <rect x="14" y="14" width="4" height="4" fill="#aaff44"/>
+        <rect x="13" y="13" width="6" height="6" fill="#88dd22" opacity="0.5"/>
+        <rect x="15" y="6"  width="2" height="6" fill="#88dd22"/>
+        <rect x="8"  y="20" width="6" height="2" fill="#88dd22"/>
+        <rect x="9"  y="19" width="2" height="2" fill="#88dd22"/>
+        <rect x="18" y="20" width="6" height="2" fill="#88dd22"/>
+        <rect x="21" y="19" width="2" height="2" fill="#88dd22"/>
+        <rect x="15" y="3"  width="2" height="2" fill="#ccff88"/>
+        <rect x="5"  y="23" width="2" height="2" fill="#ccff88"/>
+        <rect x="25" y="23" width="2" height="2" fill="#ccff88"/>
+      </svg>
+      <div class="hero-content">
+        <h2>Welcome to the NuclearAdditions Wiki!</h2>
+        <p>The community-maintained guide to NuclearAdditions — a Minecraft mod that adds nuclear energy, radiation, reactors, and more.</p>
+        <div class="hero-badges">
+          <span class="badge badge-ver">v0.4.2</span>
+          <span class="badge badge-mc">MC 1.21.1</span>
+          <span class="badge badge-loader">Forge</span>
+          <span class="badge badge-loader">NeoForge</span>
+          <span class="badge badge-loader">Fabric</span>
+        </div>
+      </div>
+    </div>
+
+    <p><b>NuclearAdditions</b> is a Minecraft mod focused on nuclear energy and its consequences. It adds uranium ore generation, buildable nuclear reactors, a radiation system that affects players and mobs, and a variety of machines for processing nuclear materials. Handle radioactive materials carefully — a meltdown can destroy your base!</p>
+    <p>This wiki has <b>98 articles</b> and is actively maintained. Want to help? <a href="#">Learn how to contribute</a>.</p>
+
+    <div class="note info">
+      <span class="note-icon">📌</span>
+      <span>The wiki is currently being updated for version 0.4.2. Some pages may still reflect older content. Check the <a href="#">Changelog</a> for what's new.</span>
+    </div>
+
+    <h2 class="h2">Browse the Wiki</h2>
+    <div class="card-grid">
+
+      <a href="#" class="wiki-card">
+        <svg class="card-img" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <rect width="16" height="16" fill="#5a5a5a"/>
+          <rect x="2" y="3" width="3" height="3" fill="#aaff44"/>
+          <rect x="9" y="6" width="3" height="3" fill="#aaff44"/>
+          <rect x="3" y="10" width="3" height="3" fill="#aaff44"/>
+          <rect x="2" y="3" width="1" height="1" fill="#ccff88"/>
+          <rect x="9" y="6" width="1" height="1" fill="#ccff88"/>
+        </svg>
+        <span class="card-name">Blocks</span>
+        <span class="card-count">34 articles</span>
+      </a>
+
+      <a href="#" class="wiki-card">
+        <svg class="card-img" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <rect x="7" y="1" width="2" height="10" fill="#c0a030"/>
+          <rect x="5" y="9" width="6" height="5" fill="#a08020"/>
+          <rect x="6" y="2" width="4" height="2" fill="#ffdd44"/>
+          <rect x="5" y="11" width="2" height="3" fill="#c0a030"/>
+          <rect x="9" y="11" width="2" height="3" fill="#c0a030"/>
+        </svg>
+        <span class="card-name">Items</span>
+        <span class="card-count">41 articles</span>
+      </a>
+
+      <a href="#" class="wiki-card">
+        <svg class="card-img" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="12" height="12" fill="#444444"/>
+          <rect x="4" y="4" width="8" height="8" fill="#222222"/>
+          <rect x="7" y="7" width="2" height="2" fill="#aaff44"/>
+          <rect x="7" y="4" width="2" height="2" fill="#88cc33"/>
+          <rect x="7" y="10" width="2" height="2" fill="#88cc33"/>
+          <rect x="4" y="7" width="2" height="2" fill="#88cc33"/>
+          <rect x="10" y="7" width="2" height="2" fill="#88cc33"/>
+        </svg>
+        <span class="card-name">Machines</span>
+        <span class="card-count">12 articles</span>
+      </a>
+
+      <a href="#" class="wiki-card">
+        <svg class="card-img" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="2" width="8" height="10" fill="#446644"/>
+          <rect x="5" y="3" width="6" height="8" fill="#558855"/>
+          <rect x="6" y="4" width="4" height="5" fill="#4a8a4a"/>
+          <rect x="7" y="5" width="2" height="3" fill="#aaff44" opacity="0.8"/>
+          <rect x="6" y="12" width="4" height="3" fill="#335533"/>
+        </svg>
+        <span class="card-name">Reactors</span>
+        <span class="card-count">8 articles</span>
+      </a>
+
+      <a href="#" class="wiki-card">
+        <svg class="card-img" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="2" width="8" height="8" fill="#8a6a2a"/>
+          <rect x="5" y="10" width="6" height="5" fill="#6a4a1a"/>
+          <rect x="3" y="4" width="2" height="2" fill="#1a1a1a"/>
+          <rect x="11" y="4" width="2" height="2" fill="#1a1a1a"/>
+          <rect x="7" y="2" width="2" height="1" fill="#aaff44"/>
+        </svg>
+        <span class="card-name">Mobs</span>
+        <span class="card-count">7 articles</span>
+      </a>
+
+      <a href="#" class="wiki-card">
+        <svg class="card-img" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="8" width="2" height="2" fill="#aaff44"/>
+          <rect x="7" y="7" width="2" height="1" fill="#88cc33"/>
+          <rect x="9" y="7" width="1" height="2" fill="#88cc33"/>
+          <rect x="8" y="10" width="1" height="2" fill="#88cc33"/>
+          <rect x="6" y="8" width="2" height="1" fill="#88cc33"/>
+          <rect x="5" y="5" width="2" height="1" fill="#ccff88" opacity="0.7"/>
+          <rect x="9" y="3" width="1" height="2" fill="#ccff88" opacity="0.7"/>
+          <rect x="11" y="9" width="2" height="1" fill="#ccff88" opacity="0.7"/>
+          <rect x="4" y="11" width="2" height="1" fill="#ccff88" opacity="0.5"/>
+        </svg>
+        <span class="card-name">Radiation</span>
+        <span class="card-count">6 articles</span>
+      </a>
+
+    </div>
+
+    <h2 class="h2">Featured Article: Uranium Ore</h2>
+
+    <div class="infobox">
+      <div class="infobox-title">Uranium Ore</div>
+      <div class="infobox-img">
+        <svg width="80" height="80" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+          <rect width="16" height="16" fill="#5a5a5a"/>
+          <rect x="1"  y="2"  width="4" height="4" fill="#aaff44"/>
+          <rect x="9"  y="6"  width="4" height="4" fill="#aaff44"/>
+          <rect x="2"  y="10" width="4" height="4" fill="#aaff44"/>
+          <rect x="11" y="1"  width="3" height="3" fill="#88cc33"/>
+          <rect x="1"  y="2"  width="1" height="1" fill="#ccff88"/>
+          <rect x="9"  y="6"  width="1" height="1" fill="#ccff88"/>
+          <rect x="2"  y="10" width="1" height="1" fill="#ccff88"/>
+        </svg>
+      </div>
+      <table>
+        <tr><td>Type</td><td>Ore Block</td></tr>
+        <tr><td>Tool</td><td>Iron Pickaxe+</td></tr>
+        <tr><td>Hardness</td><td>5.0</td></tr>
+        <tr><td>Luminance</td><td>4</td></tr>
+        <tr><td>Radiation</td><td>Low</td></tr>
+        <tr><td>Renewable</td><td>No</td></tr>
+        <tr><td>Stackable</td><td>Yes (64)</td></tr>
+        <tr><td>Y-Level</td><td>-64 to 0</td></tr>
+        <tr><td>Vein Size</td><td>1–4</td></tr>
+      </table>
+    </div>
+
+    <div class="toc">
+      <div class="toc-title">Contents</div>
+      <ol>
+        <li><a href="#">Overview</a></li>
+        <li><a href="#">Obtaining</a>
+          <ol>
+            <li><a href="#">Natural Generation</a></li>
+            <li><a href="#">Mining</a></li>
+          </ol>
+        </li>
+        <li><a href="#">Usage</a></li>
+        <li><a href="#">Crafting</a></li>
+        <li><a href="#">History</a></li>
+      </ol>
+    </div>
+
+    <h3 class="h3">Overview</h3>
+    <p><b>Uranium Ore</b> is a rare ore block added by NuclearAdditions. It generates deep underground in the Overworld, between Y-levels -64 and 0, and emits a faint greenish glow. Mining it without Silk Touch drops 1–3 Uranium Chunks, which can be smelted into Uranium Ingots.</p>
+    <p>Players standing near unmined Uranium Ore will slowly accumulate radiation. Wearing a full <a href="#">Hazmat Suit</a> negates this effect. Uranium Ore is the primary resource for building <a href="#">Nuclear Reactors</a> and crafting <a href="#">Fuel Rods</a>.</p>
+
+    <div class="note warn">
+      <span class="note-icon">⚠️</span>
+      <span>Standing near Uranium Ore without protection will give you the <b>Irradiated</b> effect. Make sure to wear a Hazmat Suit while mining!</span>
+    </div>
+
+    <h3 class="h3">Crafting</h3>
+    <p>Uranium Ore can be smelted in a Blast Furnace for 2× speed. Four Uranium Chunks can be crafted into a Uranium Block for compact storage.</p>
+
+    <div class="crafting-wrapper">
+      <div>
+        <div class="crafting-label">Crafting Table</div>
+        <div class="crafting-grid">
+          <div class="craft-slot"></div>
+          <div class="craft-slot">
+            <svg width="32" height="32" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg">
+              <rect width="8" height="8" fill="#5a5a5a"/>
+              <rect x="1" y="1" width="2" height="2" fill="#aaff44"/>
+              <rect x="5" y="4" width="2" height="2" fill="#88cc33"/>
+              <rect x="1" y="1" width="1" height="1" fill="#ccff88"/>
+            </svg>
+          </div>
+          <div class="craft-slot"></div>
+          <div class="craft-slot">
+            <svg width="32" height="32" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg">
+              <rect width="8" height="8" fill="#5a5a5a"/>
+              <rect x="1" y="1" width="2" height="2" fill="#aaff44"/>
+              <rect x="5" y="4" width="2" height="2" fill="#88cc33"/>
+              <rect x="1" y="1" width="1" height="1" fill="#ccff88"/>
+            </svg>
+          </div>
+          <div class="craft-slot"></div>
+          <div class="craft-slot">
+            <svg width="32" height="32" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg">
+              <rect width="8" height="8" fill="#5a5a5a"/>
+              <rect x="1" y="1" width="2" height="2" fill="#aaff44"/>
+              <rect x="5" y="4" width="2" height="2" fill="#88cc33"/>
+              <rect x="1" y="1" width="1" height="1" fill="#ccff88"/>
+            </svg>
+          </div>
+          <div class="craft-slot"></div>
+          <div class="craft-slot">
+            <svg width="32" height="32" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg">
+              <rect width="8" height="8" fill="#5a5a5a"/>
+              <rect x="1" y="1" width="2" height="2" fill="#aaff44"/>
+              <rect x="5" y="4" width="2" height="2" fill="#88cc33"/>
+              <rect x="1" y="1" width="1" height="1" fill="#ccff88"/>
+            </svg>
+          </div>
+          <div class="craft-slot"></div>
+        </div>
+      </div>
+      <div class="craft-arrow">→</div>
+      <div>
+        <div class="crafting-label">Result</div>
+        <div class="craft-result">
+          <svg width="40" height="40" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+            <rect width="16" height="16" fill="#3a6a3a"/>
+            <rect x="2" y="2" width="5" height="5" fill="#aaff44"/>
+            <rect x="9" y="2" width="5" height="5" fill="#88cc33"/>
+            <rect x="2" y="9" width="5" height="5" fill="#88cc33"/>
+            <rect x="9" y="9" width="5" height="5" fill="#aaff44"/>
+            <rect x="2" y="2" width="1" height="1" fill="#ccff88"/>
+            <rect x="9" y="9" width="1" height="1" fill="#ccff88"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="note danger">
+      <span class="note-icon">☢️</span>
+      <span>Uranium Blocks emit a stronger radiation field than individual chunks. Don't use them as building material without proper shielding!</span>
+    </div>
+
+    <h3 class="h3">History</h3>
+    <p>Uranium Ore was added in <b>v0.1.0</b>, the first public release of NuclearAdditions. Its generation parameters were adjusted in v0.3.0 to be slightly rarer but generate in larger veins. The radiation aura was added in v0.2.0.</p>
+
+    <div class="page-cats">
+      <strong>Categories:</strong>
+      <a href="#" class="cat-link">Blocks</a>
+      <a href="#" class="cat-link">Ores</a>
+      <a href="#" class="cat-link">Overworld</a>
+      <a href="#" class="cat-link">Radiation</a>
+      <a href="#" class="cat-link">Natural Generation</a>
+    </div>
+  </main>
+
+  <aside class="sidebar-right">
+    <div class="widget">
+      <div class="widget-title">Recent Changes</div>
+      <ul class="recent-list">
+        <li><a href="#">Uranium Ore</a><span class="edit-time">1 hour ago · NuclearFan99</span></li>
+        <li><a href="#">Reactor Core</a><span class="edit-time">3 hours ago · ModAuthor</span></li>
+        <li><a href="#">Hazmat Suit</a><span class="edit-time">Yesterday · WikiHelper</span></li>
+        <li><a href="#">Radiation System</a><span class="edit-time">2 days ago · ModAuthor</span></li>
+        <li><a href="#">Changelog</a><span class="edit-time">2 days ago · ModAuthor</span></li>
+      </ul>
+    </div>
+    <div class="widget">
+      <div class="widget-title">Version Support</div>
+      <table class="stat-table">
+        <tr><td>1.21.1</td><td class="status-y">✔ Stable</td></tr>
+        <tr><td>1.20.4</td><td class="status-y">✔ Stable</td></tr>
+        <tr><td>1.20.1</td><td class="status-w">⚙ WIP</td></tr>
+        <tr><td>1.19.4</td><td class="status-n">✘ Dropped</td></tr>
+      </table>
+    </div>
+    <div class="widget">
+      <div class="widget-title">Wiki Stats</div>
+      <table class="stat-table">
+        <tr><td>Articles</td><td>98</td></tr>
+        <tr><td>Images</td><td>63</td></tr>
+        <tr><td>Edits</td><td>741</td></tr>
+        <tr><td>Users</td><td>24</td></tr>
+      </table>
+    </div>
+    <div class="widget">
+      <div class="widget-title">Links</div>
+      <ul class="recent-list">
+        <li><a href="#">Discord Server</a></li>
+        <li><a href="#">GitHub Repo</a></li>
+        <li><a href="#">CurseForge</a></li>
+        <li><a href="#">Modrinth</a></li>
+        <li><a href="#">Bug Tracker</a></li>
+      </ul>
+    </div>
+  </aside>
+
+</div>
+
+<footer>
+  <div>
+    <b style="color:#c8e890">NuclearAdditions Wiki</b> &nbsp;·&nbsp;
+    Content available under <a href="#">CC BY-SA 4.0</a>
+  </div>
+  <div class="footer-links">
+    <a href="#">About</a>
+    <a href="#">Privacy</a>
+    <a href="#">Disclaimers</a>
+    <a href="#">Contribute</a>
+  </div>
+</footer>
+
+</body>
+</html>
